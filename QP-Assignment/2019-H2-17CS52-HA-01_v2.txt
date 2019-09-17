@@ -1,0 +1,187 @@
+Home Assignment-1 (17CS52 - Computer Networks)
+Note:
+. Assignment submission date: Sep 16, 2019.
+
+. The assignments should preferably be done in a group (either 2 or 3 students). Teams can be across the sections too. A group of 4 members is not allowed, but an individual submission is permitted as special case.
+
+. All the assignments are experiential assignments and programming too. It is expected that you should be able to apply the concepts learnt in the class in writing the programs. For programming assignments, you can choose the programming language of your choice from C/C++, Java, or Python only.
+
+. Each team needs to do 3 programming assignment. Doing more than 3 may earn you bonus marks (may be added towards other assignments).
+
+. The team/group need to create the Github repository and provide the github repository link. This link should be provided in GoogleDrive file which contains your group details. All assignments should be in text. Do not upload any binary file, word doc, pdf file etc except tcpdump/wireshark capture.
+
+. Any member of the group may be asked to explain the assignment. Thus all members of the groups are expected to know details of the assignment. The entire team will get marks based on the answer given by the selected member. The evaluation will be done in either Tutorial hour or your free time slot (1/2 day in a week).
+
+. Allotment of assignment will done randomly based on group ID (as per worksheet).
+
+. Please avoid plagiarism. Any plagiarism will be result in 0 marks. Plagiarism from internet (stack overflow, quora etc) will have equal punishment. You can use internet resources, search engines to explore your answers, but it has to be done by you. Provides details of all URLs which you have found useful in completing the assignment.
+
+. Any program implementation MUST avoid hard coding of constants. Use command line parameters (arguments) to provide input to your program. Do not use scanf/printf or equivalent such input() in python.
+
+. The Github repository should contain the following.
+  . A README file providing following details:
+    . group details (USN and Name)
+    . This should be common to all assignments.
+
+. For each assignment create a file such as Description-1.txt, Description-2.txt, which provide details on
+  . github repository link.
+  . How to run the program (if programming assignment)
+  . An example of input data (if input data/parameters are used).
+  . Corresponding result file e.g. result-1.txt which contains the results and explanation of the result. Provide the results of program execution with your explanation as per the parameters given in the problem. You are free to use additional parameters in case you feel these are need but same needs to be explained.
+  . For non-programming assignments details of the work done and how it is done and the respective output.
+  . Challenges/issues that you faced while writing such program and how did you address the same.
+
+. Each team will be assigned 3 assignment questions. One programming question from category-A. Two experiential exercise questions from category-B. These will be assigned as per your group and will be published by Wednesday Sep 04, 2019.
+
+. There are some assignments related to HTTP, FTP, SMTP, and POP. For HTTP you may need to create your simple web page and cgi-scripts. The location to create your own web pages is /home/<usn>/public_html, where <usn> corresponds to your USN number (without the first digit 1). For example, for USN 1ks17cs001, the usn to be used on the server is ks17cs001.
+  The server IP address is 202.62.79.36
+  you can access the server using your usn as your user id (ks17csNNN). The password is "17cs52" and should change it on first login.
+  To create your web pages, create file in any one USN your team under the directory and ensure you are able to access  it from home. For example, to access hello.html for the user ks17cs001, use the following url
+    http://202.62.79.36/~ks17cs001/hello.html
+  This should display the content of this web page in your browser.
+
+For any clarifications, please get in touch with your teacher.
+-----------------------------------------------------------------------
+Category-A
+==========
+
+A01. Write a program that takes the IP Address as input and validates that IP address is correct and is publicly assignable i.e. the IP address should belong to any of the following ranges
+  1.0.0.1 - 9.255.255.255
+  11.0.0.1 - 126.255.255.255
+  127.0.0.1 - 127.0.0.255
+  128.0.0.1 - 239.255.255.255
+
+A02. Write a program that takes three arguments as follows
+  first ip address
+  second ip address
+  netmask.
+  The program should check if both the IP belongs to same subnet or different subnet and output one of the following.
+  "same subnet" or "different subnet"
+
+A03. Write a program that takes two arguments as follows
+  first ip address / subnet mask (format a.b.c.d/n)
+  Second ip address / subnet mask (format a.b.c.d/n)
+  Program should check if subnet of one contains the subnet of other and output accordingly i.e.
+    "first subnet subsume second subnet", or
+    "second subnet subsumes first subnet"
+
+A04.Write a program that takes two arguments as follows
+  ip address
+  subnet mask.
+
+  Program should output the network number,  and every 10th usable IP address starting from first usable IP address.
+
+A05. Write a program to compute UDP checksum for the data sent to another program on another machine. The program should take 5 parameters as input
+  a. source ip address
+  b. source port
+  c. Destination IP address
+  d. Destination port
+  e. Data string.
+
+  Verifying by sending this data (using nc) from source machine to destination using these ports and verifying the checksum value using tcpdump/wireshark. The .pcap file containing packet capture should lso be uploaded along with the program.
+
+A06. Write a program to compute UDP checksum for the data sent to another program on another machine. The program should take 5 parameters as input below. Make 5 variations in the data input in such a way that checksum remains the same. The At least 3 variations should be without adding any characters.  The program should output computed checksum and the 5 variations of data that are created by the program to have the  same checksum.
+
+  a. source ip address
+  b. source port
+  c. Destination IP address
+  d. Destination port
+  e. Data string.
+
+A07. Implement SMTP protocol.
+Write a SMTP client to send one email using port 25. Since no internet email server provides mail access on port 25, install your own mail SMTP server. The program should not use any smtp or mail library and all the mail commands should be used as per SMTP protocol e.g. HELO, MAIL FROM:, RCPT TO:, DATA etc.
+
+The program should take following parameters
+  a. recipient email address
+  b. mail content e.g. "Hello, my tryst with first mail construction directly using SMTP".
+  c. SMTP Server IP address
+  d. SMTP Server port number (by default 25)
+
+  The SMTP transmission should be captured using tcpdump/wireshark and same should be submitted. The mail program should work with success and failure cases i.e. when recipient address does not exist.
+
+A08. Implement web access including redirect.
+Write a web client to access a webpage on a web server (e.g. cse.ksit.edu.in). If the server redirects the request to another URL using status code 301 or 302, then client should access the new URL. Repeat the process till status code received is 200 or 403 or 404. Save the content of the received file in your local directory as per path given in the redirected URL and also note down the Last-Modified header for this file.  The program should not use any URL library, but should use HTTP protocol headers directly as per specs. The program should accept following parameter
+    a. URL
+
+  The submission should include tcpdump of communication and saved file using redirect.
+
+
+A09. Implement POP3 protocol
+Write a POP3 client to retrieve emails from POP3 server and display these on the screen, and delete only first and last email. The server name, username and password is to be taken as input parameters. The program should save the retrieved emails in two separate files named as firstemail.txt and lastemail.txt. The program should not use mail library. It should use POP3 protocol command directly in the code. The program should take following input parameters.
+  a. POP server IP Address
+  b. POP server port number
+  c. username
+  d. password,
+
+====================================================================
+Note: For all the web (HTTP protocol) exercises, the result output should contain all the request and response headers.
+
+-------------------------------------------------------
+Category-B:
+===========
+
+B01. Create web pages and corresponding web requests that result in following status codes
+  200
+  301
+  400
+  401
+
+
+B02. Create web pages and corresponding web requests that result in following status codes
+  200
+  302
+  404
+  403
+
+B03. Creating two equivalent web pages and access the same. First should result in proper content type and thus it should be displayed properly in the browser. The 2nd weg page though having content should display the content in raw format without any formatting. These web pages could be .html or .jpg files etc.
+
+B04. Access a web page of your choice, and note down the Last-Modified:. Re-access the web page with header "If-Modified-Since" passing this data as the parameter to get a response HTTP status code 304. Reaccess the same web page but date 1 second earlier to get status code 200.
+
+B05. Identify a web page that provides E-tag header. Access this web page with request header "If-None-Match:" and provide the etag value and verify the status code as 304. Access the same web page but modified value of Etag in the header "If-None-Match:" and verify the status code 200.
+
+B06. Create 3 weg pages e.g. page1.html, page2.html and page3.html. page1.html should redirect to page2.html, page2.html should redirect to page3.html, and page3.html should redirect back to page1.html. Access this web page in a browser of your choice as well as with wget. Analyse the web page responses in both cases.
+
+B07. fetching of partial contents. Identify a web page having at least 10KB of size. Download this web page and save it locally. Now download this web page in chunks of 2K each i.e. bytes range 0-1999, 2000-3999, 4000-5999, ... and so on and save each chunk. Merge all the chunks to a single file. Compare this file with original single file received. Verify that Both files are identical.
+
+B08. HTTP authentication using base64 encoding. Identify a web page that requires authentication. Send usn of first member of teamas username and usn of second member of team  as password. Explain the computation of Base64 encoding. Compute the base64 encoding of username and password and verify with the value sent via tcpdump.
+
+
+B09. Access a web page using a browser that sends some cookie value have expiry period of more than 60 seconds.
+Reaccess this web page and verify that cookie value is sent as part of the header. Access the webpage after the expiry time and verify that cookie is not sent in request header.
+
+Submission should include tcpdump of all 3 requests.
+
+B10. Access a web page using a browser that sends some cookie value with some path attribute.
+Reaccess this web page with the given path and further a subpath and verify that cookie value is sent as part of the header. Access the webpage with different path in the URL and verify that cookie is not sent in request header.
+
+Submission should include tcpdump of all 3 requests.
+
+
+B11. Access a web page using a browser that sends some cookie value with some domain attribute.
+Reaccess this web page with the given domain and further a subdomain and verify that cookie value is sent as part of the header. Access the webpage with different domain in the URL and verify that cookie is not sent in request header.
+
+Submission should include tcpdump of all 3 requests.
+
+B12. Using an ftp client (e.g. filezilla, psftp etc.) upload a file from one user to another user and capture the tcpdump of this communication. Install a ftp server of your own choice e.g. wsftp or something similar. Use the username as usn of first team member and password as usn of 2nd team member.
+
+Submission should include tcpdump of ftp communication (both control and data channel).
+
+B13. Access a webpage which has some embedded links e.g. vtu.ac.in , which has embedded link for vtu.ac.in/en. Click on this look and look at the headers received. Enter this link directly in the browser and look at headers received. Analyze  the difference between headers of two requests.
+
+submission should contain all http headers (request/response) for both requests and your analysis of difference.
+
+B14. Access a web page your of your school (plus two or PU) and analyze the total number of requests made by the browser for that web page. Out of these total HTTP Requests, count the number of those requests that correspond to image and their total size.
+
+B15. Consider any website belonging to an academic institute (E.g. your school or PU college) and using nslookup or dig to resolve its IP address, NS Record and MX record. Capture the DNS request and response in wireshark and analzye query and response and provide details from wireshark including what is the TTL for each resource record.
+
+B16. Use a lab system (or connect your laptop in the lab) and note down your IP address and subnet mask. Computer the broadcast address and send two ping packets to this broadcast address. Note down total number of response received and capture these responses in tcpdump/wireshark.
+
+Repeat this exercise after 5 minutes and note down the number of responses received. Analyse the difference in responses thus received.
+
+Note: Do not sent more than 2 ping request packets. Sending more than 2 ping request packets to a broadcast address would be considered bad behaviour.
+
+Submission should contain tcpdump and your analysis of difference in responses.
+----------------------------------------------------------------
+
+
+
