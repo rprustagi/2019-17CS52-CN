@@ -12,11 +12,9 @@ parser.add_argument("--server", help="Server IP address", type = str,
 parser.add_argument("--port", help = "Server port number",
   type = int, dest = "serverport", required = True)
 
-print(sys.argv)
 args = parser.parse_args()
 serverName = args.servername
 serverPort = args.serverport
-
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 message = input('Input in lower case sentence:')
