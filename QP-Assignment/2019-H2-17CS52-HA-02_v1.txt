@@ -1,0 +1,178 @@
+Home Assignment-1 (17CS52 - Computer Networks)
+Note:
+. Assignment submission date: Oct 14, 2019.
+. Bonus/Penalty marks:
+  - Early submission by 2 days (i.e. Oct 12) will get 2 bonus marks.
+  - Early submission by 4 days (i.e. Oct 09) will get 3 bonus
+  - Late submission will not be considered and result in 0 marks.
+  - Any plagiarism will result in 0 marks for both team.
+  - Doing more may earn you bonus marks (may be added towards other assignments). To do extra assignments, please get pre-approval from your teacher.
+
+. The assignments would be done in a group as defined for assignment-1. The assignment allocations for group are updated in GDocs for .
+
+. All the assignments are experiential cum programming too. It is expected that you should be able to apply the concepts learnt in the class in writing the programs. For programming assignments, you can choose the programming language of your choice from C/C++, Java, or Python only.
+
+. The team/group need to update the Github repository and provide the github repository link. This link should be provided in GDocs file which contains your group details. All assignments submissions should be in text. Do not upload any binary file, word doc, pdf file etc except tcpdump/wireshark capture.
+
+. Any member of the group may be asked to explain the assignment. Thus all members of the groups are expected to know details of the assignment. The entire team will get marks based on the answer given by the selected member. The evaluation will be done in either Tutorial hour or your free time slot (1/2 day in a week).
+
+. Please avoid plagiarism. Any plagiarism will be result in 0 marks. Plagiarism from internet (stack overflow, quora etc) will have equal punishment. You can use internet resources, search engines to explore your answers, but it has to be done by you. Provides details of all URLs which you have found useful in completing the assignment.
+
+. Any program implementation MUST avoid hard coding of constants. Use command line parameters (arguments) to provide input to your program. Do not use scanf/printf or equivalent such input() in python.
+
+. The Github repository should contain the following.
+  . A README file providing following details:
+    . group details (USN and Name)
+    . This should be common to all assignments.
+
+. All program must run on dept server i.e. 202.62.79.36
+
+. For each assignment create a file such as Description-1.txt, Description-2.txt, which provide details on
+  . github repository link.
+  . How to run the program (if programming assignment)
+  . An example of input data (if input data/parameters are used).
+  . Corresponding result file e.g. result-1.txt which contains the results and explanation of the result. Provide the results of program execution with your explanation as per the parameters given in the problem. You are free to use additional parameters in case you feel these are need but same needs to be explained.
+  . For non-programming assignments details of the work done and how it is done and the respective output.
+  . Challenges/issues that you faced while writing such program and how did you address the same.
+
+For any clarifications, please get in touch with your teacher.
+-----------------------------------------------------------------------
+
+A01. Implement GBN protocol. Write a sender and receiver program using UDP socket programming with a window size of 4, and using 10 sequence numbers i.e. 0, 1, ..., 9. Sender should send N (Configurable e.g. 12) packets and uses a timeout value of 2 seconds. Receiver program would run using socket number 20000+x, where x corresponds to last 2 three digits of your USN number. The message would have msg header value as its sequence number and content as "message number N" + md5sum checksum value, where N corresponds to sequence number. You can use md5sum checksum library to compute checksum. Consider the case. Sender should exit when it receives ack for the last packet i.e. Nth packet. Implement a lossy channel as sender losing every Ith packet (e.g. I=4). Receiver program would run for ever. Whenever sender and receiver receives a message , these are displayed on terminal.
+Thus invocation of sender and receiver program would be as follows
+
+./sender <W> <S> <N> <I> <T> <receiver IP> <receiver port>
+  W - window size
+  S - Max sequence number
+  N - number of messages to send
+  I - every I message from sender side is lost
+  T - timeout value (in seconds) waiting for ack
+
+./receiver <S> <receiver port>
+---------------------------------------------------------------------
+
+A02. Implement GBN protocol. Write a sender and receiver program using UDP socket programming with a window size of 4, and using 10 sequence numbers i.e. 0, 1, ..., 9. Sender should send N (Configurable e.g. 12) packets and uses a timeout value of 2 seconds. Receiver program would run using socket number 20000+x, where x corresponds to last 2 three digits of your USN number. The message would have msg header value as its sequence number and content as "message number N" + md5sum checksum value, where N corresponds to sequence number. You can use md5sum checksum library to compute checksum. Consider the case. Sender should exit when it receives ack for the last packet i.e. Nth packet. Implement a lossy channel as receiver side losing every Ith ack packet (e.g. I=4). Whenever sender and receiver receives a message, these are displayed on terminal.
+
+Thus invocation of sender and receiver program would be as folloqa
+Receiver program would run for ever.
+./sender <W> <S> <N> <T> <receiver IP> <receiver port>
+  W - window size
+  S - Max sequence number
+  N - number of messages to send
+  T - timeout value (in seconds) waiting for ack
+
+./receiver <S> <I> <receiver port>
+  I - every Ith  ack from receiver side is lost
+---------------------------------------------------------------------
+
+A03. Implement GBN protocol. Write a sender and receiver program using UDP socket programming with a window size of 4, and using 10 sequence numbers i.e. 0, 1, ..., 9. Sender should send N (Configurable e.g. 12) packets and uses a timeout value of 2 seconds. Receiver program would run using socket number 20000+x, where x corresponds to last 2 three digits of your USN number. The message would have msg header value as its sequence number and content as "message number N" + md5sum checksum value, where N corresponds to sequence number. You can use md5sum checksum library to compute checksum. Consider the case. Sender should exit when it receives ack for the last packet i.e. Nth packet. Receiver implements a buffer of size K i.e. i.e. it can store up to K-1 packets received out of order. Thus, whenever it receives a packet in order, it will send the ack corresponding to last packet in buffer which is in order. Implement a lossy channel as receiver side losing every Ith ack packet (e.g. I=4). Whenever sender and receiver receives a message, these are displayed on terminal.
+
+Thus invocation of sender and receiver program would be as folloqa
+Receiver program would run for ever.
+./sender <W> <S> <N> <T> <receiver IP> <receiver port>
+  W - window size
+  S - Max sequence number
+  N - number of messages to send
+  T - timeout value (in seconds) waiting for ack
+
+./receiver <S> <I> <K> <receiver port>
+  I - every Ith  ack from receiver side is lost
+  K - buffer size in terms of messages
+---------------------------------------------------------------------
+
+A04. Implement GBN protocol. Write a sender and receiver program using UDP socket programming with a window size of 4, and using 10 sequence numbers i.e. 0, 1, ..., 9. Sender should send N (Configurable e.g. 12) packets and uses a timeout value of 2 seconds. Receiver program would run using socket number 20000+x, where x corresponds to last 2 three digits of your USN number. The message would have msg header value as its sequence number and content as "message number N" + md5sum checksum value, where N corresponds to sequence number. You can use md5sum checksum library to compute checksum. Consider the case. Sender should exit when it receives ack for the last packet i.e. Nth packet. Implement a lossy channel as sender side corrupting every Ith ack packet (e.g. I=4). The packet corruption should be implemented as replacing the first word of message as "Corrupt". Whenever sender and receiver receives a message, these are displayed on terminal.
+
+Thus invocation of sender and receiver program would be as folloqa
+Receiver program would run for ever.
+./sender <receiver IP> <receiver port> <W> <S> <N> <T> <I>
+  W - window size
+  S - Max sequence number
+  N - number of messages to send
+  T - timeout value (in seconds) waiting for ack
+  I - every Ith  ack from receiver side is lost
+
+./receiver  <receiver port> <S>
+---------------------------------------------------------------------
+
+A05. Implement SR protocol. Write a sender and receiver program using UDP socket programming with a window size of N, and using S sequence numbers i.e. 0, 1, ..., S-1. Sender should send N (Configurable e.g. 12) packets and uses a timeout value of T (e.g. 2) seconds. Receiver program would run using socket number 20000+x, where x corresponds to last 2 three digits of your USN number. The message would have msg header value as its sequence number and content as "message number N" + md5sum checksum value, where N corresponds to sequence number. You can use md5sum checksum library to compute checksum. Consider the case. Sender should exit when it receives ack for the last packet i.e. Nth packet. Implement a lossy channel as receiver side losing every Ith ack (e.g. I=4). Receiver program would run for ever. Whenever sender and receiver receives a message , these are displayed on terminal.
+Thus invocation of sender and receiver program would be as follows
+
+./sender <W> <S> <N> <T> <receiver IP> <receiver port>
+  W - window size
+  S - Max sequence number
+  N - number of messages to send
+  T - timeout value (in seconds) waiting for ack
+
+./receiver <S> <I> <K> <receiver port>
+  K - receiver buffer size.
+  I - every Ith ack from receiver side is lost
+---------------------------------------------------------------------
+
+A06. Implement all 3 components of a router architecture, namely a) input ports, b) switching fabric, and c) output ports as 3 programs communicating using UDP Sockets. The socket port of input port, switching fabric, and output port would be respectively as  20000+x, 21000+x, 22000+x, where x corresponds to last 3 digits of USN of first team member.  Packets to switch input port be received from using nc client. Input port can receive packets any time, but will send to switching fabric at some rates S e.g 1 packet every Sth second.
+Similarly, switching fabric will send packet to output port at some specific rate T e.g. 1 packet every Tth second. Both input and Output port have there own queue  buffer of size Q (i.e. can hold at most Q packets in buffer). Both Input and Output ports use DropTail policy If buffer is full, received packet is dropped.
+Three programs will be invoked as follows
+./Inputport <PI> <B> <PS> <S>
+  PI: UDP port number where it receives oacjet
+  B : Buffer size for received packets
+  PS: UDP Port number for switch fabric process
+  S : Transmit rate of packets to Switch Fabric
+---------------------------------------------------------------------
+
+A07. Implement Input Port component of a router architecture with N input lines. It can receive packets on any of input port.  It will receive input packets on ports 30000+100*N+X, where X corresponds to last 2 digits of lowest USN number in the team.  For example, if lowest USN is 1KS17CS005 and N=3,then input port will receive request on Ports number 30005, 30105, 30205. It maintains equal size separate buffer for each input port. The packets are transmitted to switch fabric at a given rate T from all input ports. The message received (using nc) has the  structure: "message data" + ":" + "Output Port number". The process (input port) should display the full message along with time when received or sent.
+The program will be invoked as
+./InputPort <N> <P> <B> <PS> <T>
+  N - Number of input port linex
+  P - Base value of port number (e.g. 30000 as explained above)
+  B - buffer size for each input port
+  PS - UDP port number of switching fabric
+  T - Transmit rate of packets to switch fabric.
+---------------------------------------------------------------------
+
+A08.  Implement Output Port component of a router architecture with N output lines. It will receive packets from switch fabric and based on msg destination tag,  it will transmit  packets on ports 40000+100*N+X, where X corresponds to last 2 digits of lowest USN number in the team.  For example, if lowest USN is 1KS17CS005 and N=3,then it will transmit data on  Ports number 40005, 40105, 40205. It maintains equal size separate buffer for each input port. The packets are transmitted to switch fabric at a given rate T from all input ports. The message received (using nc) has the  structure: "message data" + ":" + "Output Port number". The process (output port) should display the full message along with time when received or sent.
+The program will be invoked as
+./InputPort <N> <P> <B> <PS> <T>
+  N - Number of output port lines
+  P - Base value of output socket port number (e.g. 40000)
+  B - buffer size for each output port
+  PO - UDP port number on which it will receive packets from switch fabric
+  T - Transmit rate of packets on each output port.
+---------------------------------------------------------------------
+
+A09-A10: For these two assignment, the problem description is as below.
+ Each router  will be implemented as a process listening on a UDP socket. The listen port number would 50000+100*N+dd, where N is the router number, and dd corresponds to last 2 digits of lowest USN number of the team. The input to each router would be as follows
+./router <id> <Rid-1:Cost-1> <T> <Rid-2:Cost-2> ..., where
+  id - router number. It will be limited between 1 to 9 (both inclusive)
+  T - time (seconds) interval at which it will send periodic routing updates to other connected routers.
+  Rid:Cost: id of router number and its link cost.
+For example
+./router 2 20 1:3 3:5 6:4 5:2
+implies that router number 2 is connected to other routers as follows:
+  router 1 with link cost of 3,
+  router 3 with link cost of 5
+  router 6 with link cost of 6
+  router 5 with link cost of 2.
+  This router sends periodic updates to these routers every 20 seconds.
+            ------------------------------------------------
+
+A09. Implement Link state routing protocol where multiple routers are connected and forward packet and build their forwarding table.
+
+The routing update message corresponds to Link State information consisting of following information
+  - <Rid:msgid> (Rid: id of router generating this message, and msgid is a unique number which will keep increasing monotonically)
+  - Array of (Rid: cost) for each connected router
+A receiving router will forward this message to all other routers to which it is connected (except to one from where it received the message) and if it has not already sent it earlier. This can be determined from msgid of originating router.
+Upon receipt of this message, a router will perform Routing table computation using Dijkstra's algorithm and print the routing table entries. The routing table entries will look as follows
+  <Destination router; Next hop; cost to destination router>
+---------------------------------------------------------------------
+
+A10. Implement Distance Vector Routing protocol where multiple routers are connected and forward packet and build their forwarding table.
+
+The routing update message corresponds to distance vector information consisting of following information
+  - Array of (Rid: cost) for each known router in the network
+
+A receiving router upon receipt of this message, will perform Routing table computation using Bellman Ford algorithm and print the routing table entries. The routing table entries will look as follows
+  <Destination router; Next hop; cost to destination router>
+====================================================================
+
+
+
+
