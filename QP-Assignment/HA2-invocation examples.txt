@@ -1,0 +1,133 @@
+A01. Implementation of GBN protocol.
+I suggest that please read the book, go thru the animation link as given in slides, and copying below.
+GBN
+http://www.ccs-labs.org/teaching/rn/animations/gbn_sr/
+§http://computerscience.unicam.it/marcantoni/reti/applet/GoBackProtocol/goback.html
+
+You need to implement a sender process and receiver process communicating on UDP sockets. To understand basic of UDP Socket programming, please refer to text book and/or slide notes 2019-H2-CN-L25-Socket-Prog.pdf and sample programs.
+
+To emulate packet loss, on the sender side implement a wrapper function lossy_send(). The main program should invoke this function to send the message. Inside this wrapper you can keep a counter to discard every ith packet. For a given scenario, workout the timeline sequence diagram and ensure that same thing happens between sender and receiver.
+
+Example: Consider following parameter values
+W=4, S=9 (0 to 9), I=4 (every 4th pkt is lost),T=5s, N=12.
+The timeline sequence diagram and communication will be as follows
+T=0: S:Pkt(s=0)-->R
+     S:Pkt(s=1)-->R
+     S:Pkt(s=2)-->R
+     S:Pkt(s=3)-->R # this packet is lost
+T=0+: R:Ack(0)-->S
+      S:Pkt(s=4)-->R (receiver discards it as s=3 not received)
+T=0+: R:Ack(1)-->S
+      S:Pkt(s=5)-->R (receiver discards it as s=3 not received)
+T=0+: R:Ack(2)-->S
+      S:Pkt(s=6)-->R (receiver discards it as s=3 not received)
+T=5: timeout occurs, Retransmits all 4 pkts
+T=5:  S:Pkt(s=3)-->R (4th pkt, and hence  lost)
+      S:Pkt(s=4)-->R (receiver discards it as s=3 not received
+      S:Pkt(s=5)-->R (receiver discards it as s=3 not received
+      S:Pkt(s=6)-->R (receiver discards it as s=3 not received
+T=10: timeout occurs, Retransmits all 4 pkts
+T=10:  S:Pkt(s=3)-->R (4th pkt, and hence  lost)
+      S:Pkt(s=4)-->R (receiver discards it as s=3 not received
+      S:Pkt(s=5)-->R (receiver discards it as s=3 not received
+      S:Pkt(s=6)-->R (receiver discards it as s=3 not received
+
+Process repeats. Please note if I has a different value or W has a different value, then this sequence could be different. The programs should work in all such sequences.
+==============================================
+A05. Implementation of GBN protocol.
+I suggest that please read the book, go thru the animation link as given in slides (copying below as well).
+SR
+http://computerscience.unicam.it/marcantoni/reti/applet/SelectiveRepeatProtocol/selRepProt.html
+
+Example: Consider following parameter values
+W=4, S=9 (0 to 9), I=4(every 4th pkt is lost),T=5s, N=12, R=4
+The timeline sequence diagram and communication will be as follows
+T=0: S:Pkt(s=0)-->R
+     S:Pkt(s=1)-->R
+     S:Pkt(s=2)-->R
+     S:Pkt(s=3)-->R # this packet is lost
+T=0+: R:Ack(0)-->S
+      S:Pkt(s=4)-->R (receiver buffers and sends ack)
+T=0+: R:Ack(1)-->S
+      S:Pkt(s=5)-->R (receiver buffers and sends ack)
+T=0+: R:Ack(2)-->S
+      S:Pkt(s=6)-->R (receiver buffers and sends ack)
+T=0++:R:Ack(4)-->S
+      R:Ack(5)-->S
+      R:Ack(6)-->S
+T=5: timeout occurs, Retransmits only 3rd packet (can't slide the window)
+T=5:  S:Pkt(s=3)-->R (4th pkt, and hence  lost)
+T=10: timeout occurs, Retransmits Pkt(s=3) again
+T=10:  S:Pkt(s=3)-->R (4th pkt, retransmitted 2nd time)
+T=10+: R:Ack(s=3)-->R
+Sender window slides now to pkt with seq=7
+T=10++ S:Pkt(s=7)-->R
+       S:Pkt(s=8)-->R
+       S:Pkt(s=9)-->R  #(this is 4th pkt and hence lost)
+       S:Pkt(s=0)-->R     # sequence number repeats
+T=10+++ R: Ack(s=7)-->S (Sender window slides)
+        R: Ack(s=8)-->S (Sender window slides)
+        R: Ack(s=0)-->S (ack for 11th packet, sender window does not slide as ack for s=9 still pending).
+
+T:11: S:Pkt(s=1)-->R (12th packet)
+T:11+: R:Ack(s=1)-->S (Ack of 12the packet)
+
+T=15: timeout occurs for packet with s=9 and is retransmitted
+T=15: S:Pkt(s=9)-->R
+T=15+ R:Ack(s=9)-->S (all acks received)
+Sender process exits
+-----------------------------------------------------
+
+
+A06: Implementation of router architecture
+Assume three processes are running as follows
+PI (Input Port), PS (Switch fabric), PO (Output Port)
+
+The invocation of these processes would be as follows
+./PI 20010 6 20020 1
+  listens on UDP socket 20010
+  Q size: 6
+  20020 UDP socket of PS process
+  transmit rate 1 pkt/sec
+
+./PS 20020 20030
+  listens on UDP Socket 20020
+  20030 : UDP Socket of PO (output port)
+
+./PO 20030 4 0.5
+PO (Output Port):
+  Listens on UDP Socket 20030
+  Transmit rate: 0.5 pkt/sec i.e. 1 pkt per 2s
+  Q Size: 4
+
+
+Consider invocation of nc sending 8 packets to PU at T0
+e.g.
+nc -u localhost 20010
+Pkt 1
+Pkt 2
+Pkt 3
+Pkt 4
+Pkt 5
+Pkt 6
+Pkt 7
+Pkt 8
+
+PI will receive these 8 msgs at T=0 and start transmitting first packet to PS which will take 1s (so essentially it sends first packet after 1s is over), put Pkt 2 to Pkt 7 in the input Q and discard Pkt 8. At every 1 s, it will take one pkt from queue and send to PS.
+
+PS will receive first packet at T=1, and start transmitting it to PO. PO should receive this pkt at T=1 PS will receive next packet at T=2, and so on.
+
+PO will start sending this packat out i.e. on Standard output and it takes 2s. Thus this packet will be displayed at T=3. PO will receive Pkt 2 at T-2, Pkt T=3 and starts putting these in buffer. It queue sise is 4 and so it will keep putting the packets in its queue every 1s, but takes out every 2s. Given the current scenario no pkt will be lost. However, if we use nc at T=2 to send 2 more packets, then Pkt=10 would be dropped at PO.
+
+you can work out similar variations.
+-------------------------------------------------------------------------
+
+A09-10
+T=1, U=2, V-3, W=4, X=5, Y=6, Z=7
+./router 1 20 2:1 3:4 6:8 7:7
+./router 2 20 1:1 3:2 4:7 6:10
+./router 3 20 1:4 2:2 4:4 5:12
+./router 4 20 2:7 3:4 5:7 6:15
+./router 5 20 4:7 3:12 4:6 7:9
+./router 6 20 2:10 4:15 5:6 7:13
+./router 7 20 1:7 5:9 6:13
