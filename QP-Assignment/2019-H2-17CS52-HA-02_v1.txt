@@ -121,7 +121,7 @@ Three programs will be invoked as follows
 A07. Implement Input Port component of a router architecture with N input lines. It can receive packets on any of input port.  It will receive input packets on ports 30000+100*N+X, where X corresponds to last 2 digits of lowest USN number in the team.  For example, if lowest USN is 1KS17CS005 and N=3,then input port will receive request on Ports number 30005, 30105, 30205. It maintains equal size separate buffer for each input port. The packets are transmitted to switch fabric at a given rate T from all input ports. The message received (using nc) has the  structure: "message data" + ":" + "Output Port number". The process (input port) should display the full message along with time when received or sent.
 The program will be invoked as
 ./InputPort <N> <P> <B> <PS> <T>
-  N - Number of input port lines
+  N - Number of input port linesx
   P - Base value of port number (e.g. 30000 as explained above)
   B - buffer size for each input port
   PS - UDP port number of switching fabric
